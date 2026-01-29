@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishes for You ✨</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #2c3e50, #000);
+        }
+
+        .wishes-container {
+            max-width: 800px;
+            width: 90%;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .wish-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            line-height: 1.5;
+            min-height: 3em;
+            /* Reserve space */
+            color: var(--secondary-color);
+            text-shadow: 0 0 10px rgba(254, 202, 87, 0.5);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background-color: var(--secondary-color);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 50px;
+            height: 70px;
+            background: var(--primary-color);
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            animation: floatUp 10s linear infinite;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background: white;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wishes-container glass-card slide-up" style="z-index: 10;">
+        <h1>Happy Birthday Dummii 🫂💖! 🎂</h1>
+        <div id="typewriter" class="wish-text"></div>
+        <p style="margin-top: 20px; color: #aaa; font-size: 0.9rem;">(Wait for it...)</p>
+    </div>
+
+    <!-- Balloons Container -->
+    <div id="balloons-container"></div>
+
+    <nav class="nav-bar">
+        <a href="memories.html" class="nav-link">Memories</a>
+        <a href="wishes.html" class="nav-link">Wishes</a>
+        <a href="video.html" class="nav-link">Surprise ➡️</a>
+    </nav>
+
+    <script src="script.js"></script>
+    <script>
+        // Specific Logic for Wishes Page
+        const wishes = [
+            "May your day be filled with joy... ",
+            "May all your dreams come true... ",
+            "You are the best person in the world! ",
+            "I hope this year brings you success and happiness! ",
+            "Love you to the moon and back! ❤️"
+        ];
+
+        let wishIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const delayBetweenWishes = 2000;
+
+        const typewriterElement = document.getElementById('typewriter');
+
+        function type() {
+            const currentWish = wishes[wishIndex];
+
+            if (isDeleting) {
+                typewriterElement.textContent = currentWish.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterElement.textContent = currentWish.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            typewriterElement.innerHTML += '<span class="cursor"></span>';
+
+            let typeDelay = isDeleting ? deleteSpeed : typeSpeed;
+
+            if (!isDeleting && charIndex === currentWish.length) {
+                typeDelay = delayBetweenWishes;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wishIndex = (wishIndex + 1) % wishes.length;
+            }
+
+            setTimeout(type, typeDelay);
+        }
+
+        // Start typing on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(type, 1000);
+            createBalloons();
+        });
+
+        function createBalloons() {
+            const container = document.getElementById('balloons-container');
+            const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff'];
+
+            for (let i = 0; i < 15; i++) {
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                balloon.style.left = `${Math.random() * 100}%`;
+                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                balloon.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(balloon);
+            }
+        }
+    </script>
+</body>
+
+</html>

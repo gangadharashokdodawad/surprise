@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Message 🎥</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            /* Prevent scrollbar from fireworks */
+        }
+
+        .video-container {
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        video {
+            width: 60%;
+            height: 50%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .final-message {
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .signature {
+            margin-top: 1rem;
+            font-family: 'Dancing Script', cursive;
+            /* Fallback if not loaded, nice touch */
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="fireworksCanvas"></canvas>
+
+    <div class="video-container glass-card fade-in">
+        <h1>One Last Surprise! 🎆</h1>
+
+        <!-- Replace 'birthday_video.mp4' with your actual video file -->
+        <video controls poster="assets/video_poster.jpg">
+            <source src="assets/bday.mp4" type="video/mp4" >
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="final-message">
+            Happy Birthday, Mamma! 🫂❤️
+        </div>
+        <div class="signature">
+            From: One among them !!🥹
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="wishes.html" class="nav-link">⬅️ Back</a>
+        <a href="index.html" class="nav-link">Restart 🔄</a>
+    </nav>
+
+    <script src="script.js"></script>
+    <script>
+        // Fireworks Animation
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Firework { 
+            constructor(x, y, targetX, targetY) {
+                this.x = x;
+                this.y = y;
+                this.targetX = targetX;
+                this.targetY = targetY;
+                this.speed = 3;
+                this.angle = Math.atan2(targetY - y, targetX - x);
+                this.velocity = {
+                    x: Math.cos(this.angle) * this.speed,
+                    y: Math.sin(this.angle) * this.speed
+                };
+                this.particles = [];
+                this.exploded = false;
+            }
+
+            update() {
+                if (!this.exploded) {
+                    this.x += this.velocity.x;
+                    this.y += this.velocity.y;
+
+                    const dist = Math.hypot(this.x - this.targetX, this.y - this.targetY);
+                    if (dist < 5) {
+                        this.explode();
+                    }
+                }
+
+                this.particles.forEach((p, i) => {
+                    p.update();
+                    if (p.alpha <= 0) this.particles.splice(i, 1);
+                });
+            }
+
+            draw() {
+                if (!this.exploded) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = 'white';
+                    ctx.fill();
+                }
+                this.particles.forEach(p => p.draw());
+            }
+
+            explode() {
+                this.exploded = true;
+                for (let i = 0; i < 50; i++) {
+                    this.particles.push(new Particle(this.x, this.y));
+                }
+            }
+        }
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.velocity = {
+                    x: (Math.random() - 0.5) * 5,
+                    y: (Math.random() - 0.5) * 5
+                };
+                this.alpha = 1;
+                this.color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+            }
+
+            update() {
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.velocity.y += 0.05; // Gravity
+                this.alpha -= 0.01;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const fireworks = [];
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (Math.random() < 0.05) {
+                fireworks.push(new Firework(
+                    Math.random() * canvas.width,
+                    canvas.height,
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height / 2
+                ));
+            }
+
+            fireworks.forEach((fw, i) => {
+                fw.update();
+                fw.draw();
+                if (fw.exploded && fw.particles.length === 0) {
+                    fireworks.splice(i, 1);
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+
+</html>

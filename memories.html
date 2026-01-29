@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memories 📸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: block;
+            /* Default block for scrolling content */
+            padding-bottom: 80px;
+            /* Space for navbar */
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            /* Increase min size to 300px for larger desktop images to fill space */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            justify-content: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                /* Allow 2 columns on mobile by reducing min width */
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+                padding: 15px;
+            }
+        }
+
+        .memory-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            aspect-ratio: 1 / 1;
+            /* Square images */
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05) rotate(2deg);
+            z-index: 10;
+        }
+
+        .memory-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s;
+        }
+
+        .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .memory-card:hover .caption {
+            transform: translateY(0);
+        }
+
+        /* Music Player Styling */
+        .music-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 10px;
+            border-radius: 50px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="music-player">
+        <span>🎵 BGM</span>
+        <button class="music-toggle" id="musicBtn" onclick="toggleMusic()">🔇</button>
+        <audio id="bgMusic" loop>
+            <!-- User should place their music file here -->
+            <source src="assets/background_music.mpeg" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <div class="header slide-up">
+        <h1>Cherished Memories 💖</h1>
+        <p>A few moments I'll never forget...</p>
+    </div>
+
+    <div class="gallery-grid fade-in">
+        <!-- Gallery Items -->
+        <div class="memory-card">
+            <img src="assets/memory1.jpeg" alt="Memory 1">
+            <div class="caption">My best pic with you!! 😂</div>
+        </div>
+        <div class="memory-card">
+            <img src="assets/memory2.jpeg" alt="Memory 2">
+            <div class="caption"># The beautiful One 💖</div>
+        </div>
+        <div class="memory-card">
+            <img src="assets/memory3.jpeg" alt="Memory 3">
+            <div class="caption">Oyeee Heroine 😍</div>
+        </div>
+        <div class="memory-card">
+            <img src="assets/memory4.jpeg" alt="Memory 4">
+            <div class="caption">So proud of you! 🥰</div>
+        </div>
+        <div class="memory-card">
+            <img src="assets/memory5.jpeg" alt="Memory 5">
+            <div class="caption">Fvrt of all time💖 </div>
+        </div>
+        <div class="memory-card">
+            <img src="assets/memory6.jpeg" alt="Memory 6">
+            <div class="caption">Selfie Queen 🥰</div>
+        </div>
+         <div class="memory-card">
+            <img src="assets/memory7.jpg" alt="Memory 5">
+            <div class="caption">Cutie Pie 💖 </div>
+        </div>
+        <div class="memory-card">
+            <img src="assets/memory8.jpg" alt="Memory 6">
+            <div class="caption">Sisters forever 👯‍♀️</div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="memories.html" class="nav-link">Memories</a>
+        <a href="wishes.html" class="nav-link">Wishes ➡️</a>
+    </nav>
+
+    <script src="script.js"></script>
+    <script>
+        const music = document.getElementById('bgMusic');
+        const btn = document.getElementById('musicBtn');
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                btn.textContent = '🔊';
+            } else {
+                music.pause();
+                btn.textContent = '🔇';
+            }
+        }
+    </script>
+</body>
+
+</html>

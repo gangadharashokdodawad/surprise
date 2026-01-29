@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise! 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            justify-content: center;
+            /* Center content for welcome screen */
+            align-items: center;
+        }
+
+        .welcome-container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .gift-box-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            animation: pulse-glow 2s infinite;
+            transition: transform 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .gift-box-btn:hover {
+            transform: scale(1.1);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="particles"></div>
+
+    <div class="welcome-container glass-card fade-in">
+        <h1>Someone speical has a Birthday... 🤫</h1>
+        <p style="margin-bottom: 2rem; font-size: 1.2rem;">Are you ready for your surprise?</p>
+        <button class="gift-box-btn" onclick="window.location.href='memories.html'">
+            🎁 Open Surprise
+        </button>
+    </div>
+
+    <!-- No nav bar on welcome screen to focus attention on the button -->
+
+    <script src="script.js"></script>
+    <script>
+        createParticles('particles');
+    </script>
+</body>
+
+</html>
